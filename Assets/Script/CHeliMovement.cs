@@ -11,8 +11,8 @@ public class CHeliMovement : MonoBehaviour
 
 	private float tailRotorRateFraction = 1f;
 
-	private const float mainRotorRadius = 2f;
-	private readonly Vector3 mainRotorCenter = new Vector3(0f, 1f, 0f);
+	private const float mainRotorRadius = 8.3f * 0.5f;
+	private readonly Vector3 mainRotorCenter = new Vector3(0f, 2.5f, 0f);
 	private const float floatingForce = 9.81f;
 	//private const float floatingForce = 9.81f;
 
@@ -35,6 +35,7 @@ public class CHeliMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 		Rigidbody rigidbody = GetComponent<Rigidbody>();
+		var rotorForceCenter = rigidbody.centerOfMass + mainRotorCenter;
 
 		float rollIn = Input.GetAxis("Roll");
 		float pitchIn = Input.GetAxis("Pitch");
@@ -49,12 +50,12 @@ public class CHeliMovement : MonoBehaviour
 		//transform.Rotate(pitchIn, rollIn, 0f);
 		//rigidbody.AddRelativeTorque(-pitchIn, rollIn, 0f);
 
-		var mainFront = transform.TransformPoint(mainRotorCenter + new Vector3(0f, 0f, mainRotorRadius));
-		var mainBack = transform.TransformPoint(mainRotorCenter + new Vector3(0f, 0f, -mainRotorRadius));
-		var mainLeft = transform.TransformPoint(mainRotorCenter + new Vector3(mainRotorRadius, 0f, 0f));
-		var mainRight = transform.TransformPoint(mainRotorCenter + new Vector3(-mainRotorRadius, 0f, 0f));
+		var mainFront = transform.TransformPoint(rotorForceCenter + new Vector3(0f, 0f, mainRotorRadius));
+		var mainBack = transform.TransformPoint(rotorForceCenter + new Vector3(0f, 0f, -mainRotorRadius));
+		var mainLeft = transform.TransformPoint(rotorForceCenter + new Vector3(mainRotorRadius, 0f, 0f));
+		var mainRight = transform.TransformPoint(rotorForceCenter + new Vector3(-mainRotorRadius, 0f, 0f));
 
-		//var mainUp = (transform.TransformPoint(mainRotorCenter) - transform.position).normalized;
+		//var mainUp = (transform.TransformPoint(rotorForceCenter) - transform.position).normalized;
 		var mainUp = transform.TransformVector(Vector3.up).normalized;
 
 
