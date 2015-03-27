@@ -4,6 +4,8 @@ using System.Collections;
 
 public class CHeliMovement : MonoBehaviour
 {
+	public GameObject rotor;
+
 	private float mainRotorRate = 0f;
 
 	private float collective = 1f;
@@ -30,6 +32,7 @@ public class CHeliMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		rotor.transform.Rotate(0f, Time.deltaTime * 8000f, 0f);
 	}
 
 	void FixedUpdate()
