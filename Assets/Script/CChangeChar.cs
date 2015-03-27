@@ -19,14 +19,14 @@ public class CChangeChar : MonoBehaviour
 		if (until <= 0f)
 		{
 			until = UnityEngine.Random.value;
-			var off = renderer.material.mainTextureOffset += new Vector2(
+			var off = GetComponent<Renderer>().material.mainTextureOffset += new Vector2(
 				UnityEngine.Random.value,
 				UnityEngine.Random.value);
 
 			off.x %= 1f;
 			off.y %= 1f;
 
-			renderer.material.mainTextureOffset = off;
+			GetComponent<Renderer>().material.mainTextureOffset = off;
 		}
 	}
 }
