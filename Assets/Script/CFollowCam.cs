@@ -19,7 +19,7 @@ public class CFollowCam : MonoBehaviour
 		Vector3 from = helo.transform.TransformPoint(offset);
 		Vector3 look = helo.transform.position;
 
-		transform.position = Vector3.Lerp(transform.position, from, Time.deltaTime);
+		transform.position = Vector3.Lerp(transform.position, from, Time.deltaTime * 8f);
 		transform.LookAt(look);
 	}
 }
