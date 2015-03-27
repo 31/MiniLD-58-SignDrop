@@ -16,9 +16,10 @@ public class CHeliMovement : MonoBehaviour
 	private const float floatingForce = 9.81f;
 	//private const float floatingForce = 9.81f;
 
-	private const float cyclicEffect = 0.05f;
+	private const float cyclicEffect = 0.1f;
 
-	private const float generalAirFriction = 0.0005f;
+	private const float generalAirFriction = 0.0002f;
+	private const float verticalAirFriction = 0.6f;
 
 	// Use this for initialization
 	void Start()
@@ -43,7 +44,7 @@ public class CHeliMovement : MonoBehaviour
 		pitchIn = Mathf.Clamp(pitchIn, -1f, 1f);
 		collectiveIn = Mathf.Clamp(collectiveIn, -1f, 1f);
 
-		collective = defaultCollective + collectiveIn * 0.4f;
+		collective = defaultCollective * (1f + collectiveIn);
 
 		//transform.Rotate(pitchIn, rollIn, 0f);
 		//rigidbody.AddRelativeTorque(-pitchIn, rollIn, 0f);
@@ -69,11 +70,10 @@ public class CHeliMovement : MonoBehaviour
 		float windSpeed2 = rigidbody.velocity.sqrMagnitude;
 
 		// Generally oppose movement.
-		//rigidbody.AddForce(-rigidbody.velocity * windSpeed2 * generalAirFriction);
+		rigidbody.AddForce(-rigidbody.velocity * windSpeed2 * generalAirFriction);
 
 		// Apply torque towards movement vector.
 		var localVel = transform.InverseTransformVector(rigidbody.velocity);
-		var movementRot = Quaternion.LookRotation(localVel, Vector3.up);
 
 		var localPlanarVel = new Vector3(localVel.x, 0f, localVel.z);
 
@@ -86,10 +86,12 @@ public class CHeliMovement : MonoBehaviour
 
 		if (windSpeed2 > 0.5f)
 		{
-			rigidbody.AddRelativeTorque(torqueAxis * torqueAngle * windSpeed2 * 0.001f);
+			rigidbody.AddRelativeTorque(torqueAxis * torqueAngle * windSpeed2 * 0.1f);
 		}
 
-		rigidbody.AddRelativeForce(9.81f * Vector3.up * mainRotorRate);
+		// Make blades keep plane from going up and down, friction-wise.
+		rigidbody.AddForce(-Mathf.Sign(localVel.y) * (localVel.y * localVel.y) *
+			verticalAirFriction * mainUp * rigidbody.mass);
 	}
 
 	private void ApplyBladeForce(Vector3 mainUp, float cyclicFrac, Vector3 bladePos)
