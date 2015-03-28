@@ -2,13 +2,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class CHeliMovement : MonoBehaviour
+public class CHeloMovement : MonoBehaviour
 {
 	public GameObject rotor;
 
 	private float mainRotorRate = 0f;
 
-	private float collective = 1f;
+	public float collective = 1f;
 	private const float defaultCollective = 0.9f;
 
 	private float tailRotorRateFraction = 1f;
@@ -20,7 +20,7 @@ public class CHeliMovement : MonoBehaviour
 
 	private const float cyclicEffect = 0.1f;
 
-	private const float generalAirFriction = 0.0002f;
+	private const float generalAirFriction = 0.0001f;
 	private const float verticalAirFriction = 0.6f;
 
 	// Use this for initialization
