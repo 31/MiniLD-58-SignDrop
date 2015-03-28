@@ -66,7 +66,7 @@ public class CFollowCam : MonoBehaviour
 			mode = (CameraMode)((int)mode % 3);
 		}
 
-		if (transform.position.y < 1f)
+		if (transform.position.y < 1.2f)
 		{
 			oceanBlocker.SetActive(true);
 		}

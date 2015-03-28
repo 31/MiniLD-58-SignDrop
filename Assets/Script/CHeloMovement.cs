@@ -24,7 +24,8 @@ public class CHeloMovement : MonoBehaviour
 	private const float rollLessFraction = 0.6f;
 
 	private const float generalAirFriction = 0.0001f;
-	private const float verticalAirFriction = 0.6f;
+	private const float verticalAirFriction = 0.8f;
+	public float verticalForceResult = 0f;
 
 	// Use this for initialization
 	void Start()
@@ -35,7 +36,7 @@ public class CHeloMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		rotor.transform.Rotate(0f, Time.deltaTime * 8000f, 0f);
+		rotor.transform.Rotate(0f, Time.deltaTime * 800f, 0f);
 	}
 
 	void FixedUpdate()
@@ -105,8 +106,10 @@ public class CHeloMovement : MonoBehaviour
 		}
 
 		// Make blades keep plane from going up and down, friction-wise.
-		rigidbody.AddForce(-Mathf.Sign(localVel.y) * (localVel.y * localVel.y) *
-			verticalAirFriction * mainUp * rigidbody.mass);
+		var vertDampForce = -Mathf.Sign(localVel.y) * (localVel.y * localVel.y) *
+			verticalAirFriction * mainUp * rigidbody.mass;
+		verticalForceResult = vertDampForce.magnitude;
+		rigidbody.AddForce(vertDampForce);
 
 		// Apply tail rotor.
 		rigidbody.AddForceAtPosition(
