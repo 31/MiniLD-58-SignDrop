@@ -17,10 +17,11 @@ public class CFollowCam : MonoBehaviour
 
 	public CameraMode mode;
 
+	public GameObject oceanBlocker;
+
 	// Use this for initialization
 	void Start()
 	{
-
 	}
 
 	// Update is called once per frame
@@ -63,6 +64,15 @@ public class CFollowCam : MonoBehaviour
 		{
 			mode++;
 			mode = (CameraMode)((int)mode % 3);
+		}
+
+		if (transform.position.y < 1f)
+		{
+			oceanBlocker.SetActive(true);
+		}
+		else
+		{
+			oceanBlocker.SetActive(false);
 		}
 	}
 }

@@ -25,6 +25,5 @@ public class CWaterSlow : MonoBehaviour {
 		otherBody.AddForceAtPosition(
 			-otherBody.velocity * 50f,
 			other.transform.position);
-
 	}
 }
