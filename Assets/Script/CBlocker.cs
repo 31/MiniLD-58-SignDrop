@@ -34,7 +34,7 @@ public class CBlocker : MonoBehaviour
 
 		var targetRot = Quaternion.LookRotation(d);
 
-		int dropped = 5;//zones.Count(z => z.dropped);
+		int dropped = zones.Count(z => z.dropped);
 		if (dropped == 0)
 		{
 			transform.rotation = targetRot;
