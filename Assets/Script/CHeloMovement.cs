@@ -15,6 +15,8 @@ public class CHeloMovement : MonoBehaviour
 
 	private const float mainRotorRadius = 8.3f * 0.5f;
 	private readonly Vector3 mainRotorCenter = new Vector3(0f, 2.5f, 0f);
+	private readonly Vector3 tailRotorCenter = new Vector3(0f, 0f, -4f);
+
 	private const float floatingForce = 9.81f;
 	//private const float floatingForce = 9.81f;
 
@@ -42,10 +44,12 @@ public class CHeloMovement : MonoBehaviour
 
 		float rollIn = Input.GetAxis("Roll");
 		float pitchIn = Input.GetAxis("Pitch");
+		float yawIn = Input.GetAxis("Yaw");
 		float collectiveIn = Input.GetAxis("Collective");
 
 		rollIn = Mathf.Clamp(rollIn, -1f, 1f);
 		pitchIn = Mathf.Clamp(pitchIn, -1f, 1f);
+		yawIn = Mathf.Clamp(yawIn, -1f, 1f);
 		collectiveIn = Mathf.Clamp(collectiveIn, -1f, 1f);
 
 		collective = defaultCollective * (1f + collectiveIn);
@@ -96,6 +100,11 @@ public class CHeloMovement : MonoBehaviour
 		// Make blades keep plane from going up and down, friction-wise.
 		rigidbody.AddForce(-Mathf.Sign(localVel.y) * (localVel.y * localVel.y) *
 			verticalAirFriction * mainUp * rigidbody.mass);
+
+		// Apply tail rotor.
+		rigidbody.AddForceAtPosition(
+			yawIn * transform.TransformVector(Vector3.left) * rigidbody.mass,
+			transform.TransformPoint(rigidbody.centerOfMass + tailRotorCenter));
 	}
 
 	private void ApplyBladeForce(Vector3 mainUp, float cyclicFrac, Vector3 bladePos)
