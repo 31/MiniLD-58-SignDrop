@@ -21,6 +21,7 @@ public class CHeloMovement : MonoBehaviour
 	//private const float floatingForce = 9.81f;
 
 	private const float cyclicEffect = 0.1f;
+	private const float rollLessFraction = 0.6f;
 
 	private const float generalAirFriction = 0.0001f;
 	private const float verticalAirFriction = 0.6f;
@@ -39,6 +40,12 @@ public class CHeloMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+
 		Rigidbody rigidbody = GetComponent<Rigidbody>();
 		var rotorForceCenter = rigidbody.centerOfMass + mainRotorCenter;
 
@@ -48,7 +55,7 @@ public class CHeloMovement : MonoBehaviour
 		float collectiveIn = Input.GetAxis("Collective");
 
 		rollIn = Mathf.Clamp(rollIn, -1f, 1f);
-		pitchIn = Mathf.Clamp(pitchIn, -1f, 1f);
+		pitchIn = Mathf.Clamp(pitchIn, -1f, 1f) * rollLessFraction;
 		yawIn = Mathf.Clamp(yawIn, -1f, 1f);
 		collectiveIn = Mathf.Clamp(collectiveIn, -1f, 1f);
 
@@ -94,7 +101,7 @@ public class CHeloMovement : MonoBehaviour
 
 		if (windSpeed2 > 0.5f)
 		{
-			rigidbody.AddRelativeTorque(torqueAxis * torqueAngle * windSpeed2 * 0.1f);
+			rigidbody.AddRelativeTorque(torqueAxis * Mathf.Sqrt(torqueAngle) * windSpeed2 * 0.2f);
 		}
 
 		// Make blades keep plane from going up and down, friction-wise.

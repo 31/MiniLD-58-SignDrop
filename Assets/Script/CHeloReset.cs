@@ -7,6 +7,7 @@ public class CHeloReset : MonoBehaviour
 	public GameObject heloPrefab;
 
 	public CFollowCam mainCamera;
+	public CDustFollow dust;
 
 	// Use this for initialization
 	void Start()
@@ -37,5 +38,6 @@ public class CHeloReset : MonoBehaviour
 		currentHelo.transform.rotation = transform.rotation;
 
 		mainCamera.helo = currentHelo.GetComponent<CHeloLinkage>();
+		dust.source = currentHelo.transform;
 	}
 }
