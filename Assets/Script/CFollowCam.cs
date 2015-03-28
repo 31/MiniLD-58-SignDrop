@@ -41,7 +41,7 @@ public class CFollowCam : MonoBehaviour
 			case CameraMode.Overhead:
 				transform.position = Vector3.Lerp(
 					transform.position,
-					helo.transform.position + new Vector3(0, 50, 0),
+					helo.transform.position + new Vector3(0, 20, 0),
 					Time.deltaTime * 8f);
 				transform.LookAt(helo.transform.position, helo.transform.forward);
 				break;

@@ -26,6 +26,8 @@ public class CCrewDisembark : MonoBehaviour
 		var landZone = collision.collider.gameObject.GetComponent<CLandingZone>();
 		if (landZone != null)
 		{
+			landZone.SetDropped();
+
 			dropped = true;
 			Destroy(GetComponent<ConfigurableJoint>());
 
