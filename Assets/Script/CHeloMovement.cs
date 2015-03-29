@@ -9,6 +9,10 @@ public class CHeloMovement : MonoBehaviour
 	private float mainRotorRate = 0f;
 
 	public float collective = 1f;
+	public float rollIn;
+	public float pitchIn;
+	public float yawIn;
+
 	private const float defaultCollective = 0.9f;
 
 	private float tailRotorRateFraction = 1f;
@@ -21,7 +25,7 @@ public class CHeloMovement : MonoBehaviour
 	//private const float floatingForce = 9.81f;
 
 	private const float cyclicEffect = 0.1f;
-	private const float rollLessFraction = 0.6f;
+	public const float rollLessFraction = 0.6f;
 
 	private const float generalAirFriction = 0.0001f;
 	private const float verticalAirFriction = 0.8f;
@@ -50,9 +54,9 @@ public class CHeloMovement : MonoBehaviour
 		Rigidbody rigidbody = GetComponent<Rigidbody>();
 		var rotorForceCenter = rigidbody.centerOfMass + mainRotorCenter;
 
-		float rollIn = Input.GetAxis("Roll");
-		float pitchIn = Input.GetAxis("Pitch");
-		float yawIn = Input.GetAxis("Yaw");
+		rollIn = Input.GetAxis("Roll");
+		pitchIn = Input.GetAxis("Pitch");
+		yawIn = Input.GetAxis("Yaw");
 		float collectiveIn = Input.GetAxis("Collective");
 
 		rollIn = Mathf.Clamp(rollIn, -1f, 1f);
